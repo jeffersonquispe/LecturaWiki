@@ -8,15 +8,51 @@
 
 using namespace std;
  
+
+string DelCharIndeseados(string s)
+{
+    const char Caracteresdeseados[] = { 'a', 'b', 'c', 'd', 'e','f','g','h','i','j','k','l','m','n'
+    ,'o','p','q','r','s','t','v','u','w','x','y','z','0','1','2','3','4','5','6','7','8','9','=','"','<','>'};
+    int Switch;
+    for (int i = 0; i < s.length(); i++)
+    {
+    	///cout << "ok: " << s[i] << endl;
+    	Switch = 1;
+    	//system("PAUSE()"); 
+        for (int j = 0; j < strlen(Caracteresdeseados); j++){
+
+            if (s[i] == Caracteresdeseados[j]){
+            		Switch=0;
+            } 
+        }
+       if(Switch==1){
+         	s[i]= '\0';
+        }  
+    }
+    return s;
+}
+
+
+
 string Lower(string s){
 	int len=s.length();
 
 	for (int i = 0; i < len; ++i)
 	{
+		//TOlower
 		if(s[i]>='A' && s[i] <='Z'){
 
 			s[i]=(s[i] + 32);
 		}
+		//Quitar tildes
+		//s[i]=Delaccented[i];	
+		//cout << (char)s[i]<< endl;system("PAUSE()");
+		//cout << (int)s[i]<< endl;system("PAUSE()");
+		if( (int)s[i] == -31 or (int)s[i]== -63) s[i] = 'a'; 
+		if(	(int)s[i] == -55 or (int)s[i] == -23){ s[i] = 'e'; }
+		if( (int)s[i] == -19 or (int)s[i]== -51) s[i] = 'i'; 
+		if( (int)s[i] == -13 or (int)s[i]== -45 ) s[i] = 'o'; 
+		if( (int)s[i] == -38 or (int)s[i]== -6 ) s[i] = 'u'; 
 	}
 	return s;
 }
@@ -35,7 +71,6 @@ int main () {
  while(!ficheroEntrada.eof()){  
 
  	getline(ficheroEntrada, frase);
- 	
  	if(frase =="</doc>"){	
  		continue;
  	}
@@ -49,10 +84,10 @@ int main () {
  	}
  	
  }
- for (int i = 0; i < 100; ++i)
+ for (int i = 0; i < 1000; ++i)
  {
- 	textInFile[i]=Lower(textInFile[i]);
- 	cout << "Frase leida: " << textInFile[i] << endl;	
+ 	textInFile[i]=DelCharIndeseados(Lower(textInFile[i]));
+ 	cout << textInFile[i] << endl;	
  }
 
  ficheroEntrada.close();
